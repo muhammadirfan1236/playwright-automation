@@ -1,37 +1,40 @@
 pipeline {
     agent any
 
+    tools {
+        nodejs 'Node18'
+    }
+
     stages {
 
         stage('Checkout Code') {
             steps {
-                git 'https://github.com/muhammadirfan1236/playwright-automation.git'
+                git url: 'https://github.com/muhammadirfan1236/playwright-automation.git', branch: 'main'
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                sh '''
-                    echo "Installing dependencies..."
-                    npm install
-                    npx playwright install
-                '''
+                sh 'npm install'
+            }
+        }
+
+        stage('Install Browsers') {
+            steps {
+                sh 'npx playwright install'
             }
         }
 
         stage('Run Tests') {
             steps {
-                sh '''
-                    echo "Running Playwright tests..."
-                    npx playwright test
-                '''
+                sh 'npx playwright test'
             }
         }
+    }
 
-        stage('Done') {
-            steps {
-                echo 'Pipeline completed successfully!'
-            }
+    post {
+        always {
+            archiveArtifacts artifacts: 'test-results/**', allowEmptyArchive: true
         }
     }
 }
