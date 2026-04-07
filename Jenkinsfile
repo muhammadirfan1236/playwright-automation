@@ -3,29 +3,34 @@ pipeline {
 
     stages {
 
-       
-
-        stage('Install & Run Tests in Docker') {
-            agent {
-                docker {
-                    image 'mcr.microsoft.com/playwright:v1.44.0-jammy'
-                    args '--ipc=host'
-                }
+        stage('Checkout Code') {
+            steps {
+                git 'https://github.com/muhammadirfan1236/playwright-automation.git'
             }
+        }
+
+        stage('Install Dependencies') {
             steps {
                 sh '''
                     echo "Installing dependencies..."
-                    npm ci
+                    npm install
+                    npx playwright install
+                '''
+            }
+        }
 
+        stage('Run Tests') {
+            steps {
+                sh '''
                     echo "Running Playwright tests..."
                     npx playwright test
                 '''
             }
         }
 
-        stage('Publish Report') {
+        stage('Done') {
             steps {
-                echo 'Test execution completed!'
+                echo 'Pipeline completed successfully!'
             }
         }
     }
