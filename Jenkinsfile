@@ -5,7 +5,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git 'https://github.com/muhammadirfan1236/playwright-automation.git'
+                git branch: 'main', url: 'https://github.com/muhammadirfan1236/playwright-automation.git'
             }
         }
 
