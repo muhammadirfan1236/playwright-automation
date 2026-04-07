@@ -1,15 +1,11 @@
 pipeline {
     agent any
 
-    tools {
-        nodejs 'Node18'
-    }
-
     stages {
 
-        stage('Checkout Code') {
+        stage('Checkout') {
             steps {
-                git url: 'https://github.com/muhammadirfan1236/playwright-automation.git', branch: 'main'
+                git 'https://github.com/muhammadirfan1236/playwright-automation.git'
             }
         }
 
@@ -19,7 +15,7 @@ pipeline {
             }
         }
 
-        stage('Install Browsers') {
+        stage('Install Playwright Browsers') {
             steps {
                 sh 'npx playwright install'
             }
