@@ -3,7 +3,7 @@
 
 const { test, expect } = require('@playwright/test');
 
-test('OrangeHRM Login Test', async ({ page }) => {
+test('OrangeHRM Login Test Jenkins', async ({ page }) => {
   await page.goto('https://opensource-demo.orangehrmlive.com/');
 
   await page.fill('input[name="username"]', 'Admin');
