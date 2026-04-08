@@ -1,11 +1,15 @@
 pipeline {
-    agent any   // ✅ REQUIRED
+    agent any
+
+    tools {
+        nodejs 'NodeJS'   // 👈 this must match the name you added
+    }
 
     stages {
         stage('install playwright') {
             steps {
                 sh '''
-                  npm i -D @playwright/test
+                  npm install
                   npx playwright install
                 '''
             }
