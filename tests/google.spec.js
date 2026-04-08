@@ -12,4 +12,5 @@ test('OrangeHRM Login Test Jenkins', async ({ page }) => {
   await page.click('button[type="submit"]');
 
   await expect(page).toHaveURL(/dashboard/);
+  
 });
