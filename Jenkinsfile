@@ -1,46 +1,29 @@
 pipeline {
-    agent any
-
-    tools {
-        nodejs 'NodeJS'   // Make sure NodeJS is configured in Jenkins
-    }
+    agent any   // ✅ REQUIRED
 
     stages {
-
-        stage('Checkout Code') {
+        stage('install playwright') {
             steps {
-                checkout scm
+                sh '''
+                  npm i -D @playwright/test
+                  npx playwright install
+                '''
             }
         }
 
-        stage('Install Dependencies') {
+        stage('help') {
             steps {
-                sh 'npm install'
+                sh 'npx playwright test --help'
             }
         }
 
-        stage('Install Playwright Browsers') {
+        stage('test') {
             steps {
-                sh 'npx playwright install --with-deps'
+                sh '''
+                  npx playwright test --list
+                  npx playwright test
+                '''
             }
-        }
-
-        stage('Run Tests') {
-            steps {
-                sh 'npx playwright test'
-            }
-        }
-
-        stage('Show Report') {
-            steps {
-                sh 'npx playwright show-report'
-            }
-        }
-    }
-
-    post {
-        always {
-            archiveArtifacts artifacts: 'playwright-report/**', allowEmptyArchive: true
         }
     }
 }
