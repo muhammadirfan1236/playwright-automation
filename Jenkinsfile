@@ -14,29 +14,19 @@ pipeline {
             }
         }
 
-     
+        // stage('help') {
+        //     steps {
+        //         sh 'npx playwright test --help'
+        //     }
+        // }
 
-        stage('test') {
-            steps {
-                sh '''
-                  npx playwright test --list
-                  npx playwright test --reporter=html
+       stage('Run Tests') {
+    steps {
+        sh 'npx playwright test'
+    }
+}
 
-                '''
-            }
-        }
 
-        stage('Show Report') {
-          steps {
-           sh 'npx playwright show-report'
-        }
-     }
-
-        stage('Publish Report') {
-            steps {
-                archiveArtifacts artifacts: 'playwright-report/**', allowEmptyArchive: true
-            }
-        }
 
     }
 }
