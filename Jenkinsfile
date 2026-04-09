@@ -21,11 +21,16 @@ pipeline {
         // }
 
        stage('Run Tests') {
-    steps {
-        sh 'npx playwright test'
-    }
-}
+         steps {
+           sh 'npx playwright test'
+         }
+      }
 
+    stage('Allure Report') {
+        steps {
+            allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
+        }
+    }
 
 
     }
