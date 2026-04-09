@@ -1,6 +1,5 @@
 pipeline {
     agent any
-
     tools {
         nodejs '25.9.0'   // 👈 this must match the name you added
     }
@@ -15,19 +14,23 @@ pipeline {
             }
         }
 
-        stage('help') {
-            steps {
-                sh 'npx playwright test --help'
-            }
-        }
+     
 
         stage('test') {
             steps {
                 sh '''
                   npx playwright test --list
-                  npx playwright test
+                  npx playwright test --reporter=html
+
                 '''
             }
         }
+
+        stage('Publish Report') {
+            steps {
+                archiveArtifacts artifacts: 'playwright-report/**', allowEmptyArchive: true
+            }
+        }
+
     }
 }
