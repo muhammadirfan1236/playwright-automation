@@ -26,6 +26,12 @@ pipeline {
             }
         }
 
+        stage('Show Report') {
+          steps {
+           sh 'npx playwright show-report'
+        }
+     }
+
         stage('Publish Report') {
             steps {
                 archiveArtifacts artifacts: 'playwright-report/**', allowEmptyArchive: true
