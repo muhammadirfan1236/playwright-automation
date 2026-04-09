@@ -1,11 +1,12 @@
 pipeline {
     agent any
+
     tools {
-        nodejs '25.9.0'   // 👈 this must match the name you added
+        nodejs '25.9.0'
     }
 
     stages {
-        stage('install playwright') {
+        stage('Install Dependencies') {
             steps {
                 sh '''
                   npm install
@@ -14,24 +15,16 @@ pipeline {
             }
         }
 
-        // stage('help') {
-        //     steps {
-        //         sh 'npx playwright test --help'
-        //     }
-        // }
+        stage('Run Tests') {
+            steps {
+                sh 'npx playwright test'
+            }
+        }
 
-       stage('Run Tests') {
-         steps {
-           sh 'npx playwright test'
-         }
-      }
-
-   stage('Allure Report') {
-    steps {
-        allure tools: ['Allure'], results: [[path: 'allure-results']]
-    }
-}
-
-
+        stage('Allure Report') {
+            steps {
+                allure includeProperties: false, results: [[path: 'allure-results']]
+            }
+        }
     }
 }
